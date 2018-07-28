@@ -5,18 +5,26 @@ class Summariser:
     def __init__(self):
         self.utes = Utilities()
 
-    def findMaxValue(list):
+    def findMaxValue(self, list):
         list.sort(reverse=True)
         return list[0]
 
-    def getMostFrequentWords(count, wordFrequencies):
+    def getMostFrequentWords(self, count, wordFrequencies):
         return self.utes.getMostFrequentWords(count, wordFrequencies)
 
-    def reorderSentences(sentences, input):
+    def reorderSentences(self, sentences, input):
         # Reorder sentences to the order they were in the original text
+        orderHash = {}
+        outputSentences = []
+        for sentence in sentences:
+            idx = input.index(sentence)
+            orderHash[idx] = sentence
+        sorted(orderHash)
+        for key in orderHash:
+            outputSentences.append(orderHash[key])
         return sentences
 
-    def summarise(input, numSentences):
+    def summarise(self, input, numSentences):
         # Get the frequency of each word in the input
         wordFrequencies = self.utes.getWordFrequency(input)
 
@@ -27,16 +35,17 @@ class Summariser:
         # workingSentences is used for the analysis, but
         # actualSentences is used in the results so that the
         # capitalisation will be correct
-        workingSentences = self.utes.getSentences(input.toLower())
+        workingSentences = self.utes.getSentences(input.lower())
         actualSentences = self.utes.getSentences(input)
 
         # Iterate over the most frequent words, and add the first sentence
         # that includes each word to the result
-        outputSentences = []
+        outputSentences = set()
         for word in mostFrequentWords:
-            for index in range(workingSentences):
-                if workingSentences[index].indexOf(word) >= 0:  # indexOf is a java function. Need to work out exactly what this does...
-                    outputSentences.append(actualSentences[i])
+            for sentence in workingSentences:
+                if word.lower() in sentence:
+                    idx = workingSentences.index(sentence)
+                    outputSentences.add(actualSentences[idx])
                     break
                 if len(outputSentences) >= numSentences:
                     break
@@ -47,10 +56,9 @@ class Summariser:
 
         result = ""
         for sentence in reorderedOutputSentences:
-            result.append(sentence)
-            result.append(".")  # This isn't always correct - perhaps it should be whatever symbol the sentence finished with
-            if sentence != reorderedOutputSentences[len(reorderedOutputSentences)]:
-                # Last sentence
-                result.append(" ")
+            result += sentence
+            result += "."  # This isn't always correct - perhaps it should be whatever symbol the sentence finished with
+            if sentence != list(reorderedOutputSentences)[len(reorderedOutputSentences)-1]:
+                result += " "
 
         return result

@@ -1,4 +1,5 @@
 import re
+import operator
 
 class Utilities:
 
@@ -6,23 +7,22 @@ class Utilities:
         self.punctuationChars = '[.!?]'
         self.sentenceEnders = '[.!?]'
 
-    def findWordsWithFrequency(wordFrequencies, frequecy):
+    def findWordsWithFrequency(self, wordFrequencies, frequency):
         if wordFrequencies is None or frequency is None:
             return []
         else:
             results = []
             for word in wordFrequencies:
-                if wordFrequencies[word] == frequency
+                if wordFrequencies[word] == frequency:
                     results.append(word)
 
             return results
 
-    def getMostFrequentWords(count, wordFrequencies):
+    def getMostFrequentWords(self, count, wordFrequencies):
         result = []
 
-        max = max(wordFrequencies)
+        freq = wordFrequencies[max(wordFrequencies, key=wordFrequencies.get)]
 
-        freq = int(max)
         while len(result) < count and freq > 0:
             words = self.findWordsWithFrequency(wordFrequencies, freq)
             result += words
@@ -30,10 +30,10 @@ class Utilities:
 
         return result
 
-    def getWordFrequency(paragraph, caseSensitive=True):
+    def getWordFrequency(self, paragraph, caseSensitive=True):
         convertedParagraph = paragraph
         if not caseSensitive:
-            convertedParagraph = paragraph.toLower()
+            convertedParagraph = paragraph.lower()
 
         # Remove punctuation characters
         paragraph = re.sub(self.punctuationChars, '', paragraph)
@@ -48,20 +48,19 @@ class Utilities:
         for word in uniqueWords:
             result[word] = self.countWords(word, words)
 
-        return results
+        return result
 
-    def getUniqueWords(words):
+    def getUniqueWords(self, words):
         if words is None:
             return ''
         else:
-            result = []
+            result = set()
             for word in words:
-                if word not in result:
-                    result.append(word)
+                result.add(word)
 
             return result
 
-    def countWords(wordToCount, words):
+    def countWords(self, wordToCount, words):
         counter = 0
         for word in words:
             if wordToCount == word:
@@ -69,8 +68,12 @@ class Utilities:
 
         return counter
 
-    def getSentences(paragraph):
+    def getSentences(self, paragraph):
+        # Split sentences
         sentenceEnders = re.compile(self.sentenceEnders)
         paragraph = sentenceEnders.split(paragraph)
+
+        # Remove leading and trailing whitespace
+        paragraph[:] = [sentence.strip() for sentence in paragraph]
 
         return paragraph
