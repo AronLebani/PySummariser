@@ -26,7 +26,7 @@ class Utilities:
         while len(result) < count and freq > 0:
             words = self.findWordsWithFrequency(wordFrequencies, freq)
             result += words
-            freq -= freq
+            freq -= 1
 
         return result
 

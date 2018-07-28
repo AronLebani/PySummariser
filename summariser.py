@@ -19,10 +19,11 @@ class Summariser:
         for sentence in sentences:
             idx = input.index(sentence)
             orderHash[idx] = sentence
-        sorted(orderHash)
-        for key in orderHash:
+
+        for key in sorted(orderHash):
             outputSentences.append(orderHash[key])
-        return sentences
+
+        return outputSentences
 
     def summarise(self, input, numSentences):
         # Get the frequency of each word in the input
