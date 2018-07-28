@@ -32,6 +32,11 @@ class Summariser:
         # Now create a set of the X most frequent words
         mostFrequentWords = self.getMostFrequentWords(100, wordFrequencies)
 
+        # Remove words of class preposition and conjunction
+        # mostFrequentWords = self.utes.removeWordsOfType(mostFrequentWords, 'preposition')
+        # mostFrequentWords = self.utes.removeWordsOfType(mostFrequentWords, 'conjunction')
+        # mostFrequentWords = self.utes.removeWordsOfType(mostFrequentWords, 'determiner')
+
         # Break the input up into sentences
         # workingSentences is used for the analysis, but
         # actualSentences is used in the results so that the

@@ -1,5 +1,6 @@
 import re
 import operator
+import nltk
 
 class Utilities:
 
@@ -77,3 +78,41 @@ class Utilities:
         paragraph[:] = [sentence.strip() for sentence in paragraph]
 
         return paragraph
+
+    def removeWordsOfType(self, words, type):
+        taggedWords = nltk.pos_tag(words)
+
+        for word, tag in taggedWords:
+            if type == 'noun':
+                if tag == ('NN' or 'NNS' or 'NNP' or 'NNPS'):
+                    taggedWords.remove((word, tag))
+            elif type == 'verb':
+                if tag == ('VB' or 'VBD' or 'VBG' or 'VBN' or 'VBP' or 'VBZ'):
+                    taggedWords.remove((word, tag))
+            elif type == 'adjective':
+                if tag == ('JJ' or 'JJR' or 'JJS'):
+                    taggedWords.remove((word, tag))
+            elif type == 'adverb':
+                if tag == ('RB' or 'RBR' or 'RBS'):
+                    taggedWords.remove((word, tag))
+            elif type == 'pronoun':
+                if tag == ('PRP' or 'PRP$'):
+                    taggedWords.remove((word, tag))
+            elif type == 'wh-pronoun':
+                if tag == ('WP' or 'WP$'):
+                    taggedWords.remove((word, tag))
+            elif type == 'preposition':
+                if tag == 'IN':
+                    taggedWords.remove((word, tag))
+            elif type == 'conjunction':
+                if tag == 'CC':
+                    taggedWords.remove((word, tag))
+            elif type == 'determiner':
+                if tag == 'DT':
+                    taggedWords.remove((word, tag))
+
+        result = []
+        for word, tag in taggedWords:
+            result.append(word)
+
+        return result
